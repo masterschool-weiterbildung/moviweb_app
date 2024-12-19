@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_migrate import Migrate
 
 from datamanager.sqlite_data_manager import SQLiteDataManager
@@ -19,7 +19,7 @@ app.config[
 
 
 @app.route('/')
-def home():
+def index():
     movie = Movie()
     movie.id = 1
     movie.user_id = 1
@@ -31,6 +31,39 @@ def home():
     data_manager.delete_movies(2)
 
     return "Welcome to MovieWeb App!"
+
+
+@app.route('/users')
+def list_users():
+    users = data_manager.get_all_users()
+
+    return render_template('users.html', users=users)
+
+
+@app.route('/users/<int:user_id>', methods=['GET'])
+def get_users_favorite_movies(user_id: int):
+    pass
+
+
+@app.route('/add_user', methods=['GET', 'POST'])
+def add_user():
+    pass
+
+
+@app.route('/users/<int:user_id>/add_movie', methods=['GET', 'POST'])
+def add_movie(user_id: int):
+    pass
+
+
+@app.route('/users/<int:user_id>/update_movie/<int:movie_id>',
+           methods=['GET', 'POST'])
+def update_movie(user_id: int, movie_id: int):
+    pass
+
+
+@app.route('/users/<int:user_id>/delete_movie/<int:movie_id>')
+def delete(user_id: int, movie_id: int):
+    pass
 
 
 if __name__ == '__main__':

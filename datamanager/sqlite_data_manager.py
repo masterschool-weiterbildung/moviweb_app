@@ -17,7 +17,7 @@ class SQLiteDataManager(DataManagerInterface):
 
     def get_all_users(self) -> ScalarResult[User]:
 
-        results = self.session.execute(select(User)).scalars()
+        results = self.session.execute(select(User)).scalars().all()
 
         return results
 
