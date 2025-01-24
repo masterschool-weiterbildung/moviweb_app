@@ -1,8 +1,9 @@
 from typing import Type
 
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import select, create_engine, ScalarResult, update
+from sqlalchemy import select, create_engine, ScalarResult, update, desc
 
+from api_util import get_movie_data_from_api
 from datamanager.data_manager_interface import DataManagerInterface
 from models import User, Movie
 
@@ -21,15 +22,25 @@ class SQLiteDataManager(DataManagerInterface):
 
         return results
 
-    def get_user_movies(self, user_id: int) -> ScalarResult[Movie]:
+    def get_user_movies(self, user_id: int) -> ScalarResult[tuple]:
 
         results = self.session.execute(
-            select(Movie).filter_by(user_id=user_id)).scalars()
+            select(User.name, Movie.id, Movie.user_id, Movie.name,
+                   Movie.director,
+                   Movie.year, Movie.rating)
+            .select_from(User)
+            .join(Movie, User.id == Movie.user_id)
+            .where(User.id == user_id)
+            .order_by(desc(Movie.name))
+        ).all()
 
         return results
 
     def get_user(self, user_id: int) -> Type[User] | None:
         return self.session.get(User, user_id)
+
+    def get_user_from_api(self, title: str) -> str | None:
+        return get_movie_data_from_api(title)
 
     def get_movie(self, movie_id: int) -> Type[Movie] | None:
         return self.session.get(Movie, movie_id)
@@ -45,7 +56,7 @@ class SQLiteDataManager(DataManagerInterface):
         finally:
             self.session.close()
 
-    def add_movies(self, movie: Movie) -> None:
+    def add_movie(self, movie: Movie) -> None:
         try:
             self.session.add(movie)
             self.session.commit()
@@ -56,7 +67,7 @@ class SQLiteDataManager(DataManagerInterface):
         finally:
             self.session.close()
 
-    def update_movies(self, movie: Movie):
+    def update_movie(self, movie: Movie):
         try:
             self.session.execute(update(Movie)
             .where(Movie.id == movie.id)

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users - MovieWeb App</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css')}}">
+</head>
+
+<body>
+<header>
+    <h1>User {{username}}</h1>
+</header>
+<main>
+    <div class="container">
+        <div class="movie-list">
+            <h3>List of Movies</h3>
+            <ul class="movie-items">
+                {% for user in result %}
+                <li class="movie-item">
+                    <div class="movie-poster"></div>
+                    <div class="movie-details">
+                        <div class="movie-info">Title: {{user.name_1}}</div>
+                        <div class="movie-info">Director: {{user.director}}
+                        </div>
+                        <div class="movie-info">Year: {{user.year}}</div>
+                        <div class="movie-info">Rating:
+                            <span class="rating">{{user.rating}}</span>
+                        </div>
+                    </div>
+                    <div class="movie-actions">
+                        <a href="/users/{{user.user_id}}/update_movie/{{user.id}}">
+                            Edit</a>
+                        <a href="/users/{{user.user_id}}/delete_movie/{{user.id}}">
+                            Delete</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</main>
+<footer>
+</footer>
+</body>
+
+</html>

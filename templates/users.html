@@ -5,24 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users - MovieWeb App</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css')}}">
 </head>
 
 <body>
-    <header>
-        <h1>Users</h1>
-    </header>
-    <main>
-        {% for user in users %}
+<header>
+    <nav>
         <ul>
-            <li>
-                <a href="/users/{{user.id}}">{{user.name}}</a>
-            </li>
+            <li><a href="/">Home</a></li>
+            <li><a href="#about">About</a></li>
         </ul>
-        {% endfor %}
-    </main>
-    <footer>
-
-    </footer>
+    </nav>
+</header>
+<main>
+    <div class="container">
+        <div class="user-list">
+            <h1>User</h1>
+            {% for user in users %}
+            <ul class="user-items">
+                <li class="user-item">
+                    <span class="user-name"><a href="/users/{{user.id}}">{{user.name}}</a></span>
+                    <a class="add-movies" href="/users/{{user.id}}/add_movie">Add
+                        Movies</a>
+                </li>
+            </ul>
+            {% endfor %}
+            <a class="add-movies" href="/add_user">Add
+                User</a>
+        </div>
+    </div>
+</main>
+<footer>
+</footer>
 </body>
 
 </html>

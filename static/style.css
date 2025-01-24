@@ -1,0 +1,236 @@
+boy {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: rgb(217, 239, 201);
+    padding: 10px 20px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a{
+    color: rgb(49, 46, 46);
+    text-decoration: none;
+    font-size: 20px;
+}
+
+nav a:hover {
+    color: #007BFF;
+}
+
+.container {
+    padding: 20px;
+    text-align: center;
+    display:flex;
+    justify-content: center;
+}
+.main-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-top: 100px;
+}
+
+.user-list {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    width: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-list h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.user-items {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f3f3f3;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.user-item:hover {
+    background-color: #e0e0e0;
+}
+
+.user-name {
+    font-size: 1em;
+    color: #555;
+}
+
+.add-movies {
+    text-decoration: none;
+    background-color: #0d9406;
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.add-movies:hover {
+    background-color: #3e633f;
+}
+
+.add-movies-form {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.add-movies-form h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.add-movies-form label {
+    display: block;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.add-movies-form input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.add-movies-form button {
+    width: 100%;
+    padding: 10px 10px;
+    background-color:  #0d9406;
+    color: #ffffff;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-movies-form a {
+    width: 100%;
+    background-color:  #0d9406;
+    color: #ffffff;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-movies-form button:hover {
+    background-color:#3e633f;
+}
+
+
+.movie-list {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    margin-top: 20px;
+}
+
+.movie-list h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.movie-items {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.movie-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f3f3f3;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.movie-item:hover {
+    background-color: #e0e0e0;
+}
+
+.movie-poster {
+    width: 50px;
+    height: 70px;
+    background-color: #ddd;
+    margin-right: 15px;
+    border-radius: 5px;
+}
+
+.movie-details {
+    flex-grow: 1;
+    font-size: 0.9em;
+}
+
+.movie-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.movie-actions a {
+    background-color: #0d9406;
+    color: white;
+    border: none;
+    padding: 5px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8em;
+    transition: background-color 0.3s ease;
+}
+
+.movie-actions button:hover {
+    background-color: #0056b3;
+}
+
+.movie-title {
+    font-weight: bold;
+}
+
+.movie-info {
+    color: #0a0a0a;
+}
