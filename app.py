@@ -1,3 +1,18 @@
+"""
+MovieWebApp: A Flask-based web application for managing users and their favorite movies.
+
+Modules and Libraries Used:
+- pathlib
+- flask
+- flask_migrate
+- SQLiteDataManager
+- models
+
+Application Configuration:
+- Database: SQLite database located at `instance/moviwebapp.db`.
+
+"""
+
 from pathlib import Path
 
 from flask import request, render_template, Flask, redirect, url_for, abort
@@ -21,11 +36,24 @@ app.config[
 
 @app.route('/')
 def index():
+    """
+    Renders the home page.
+
+    Returns:
+        str: Rendered `index.html` template.
+    """
     return render_template('index.html')
 
 
 @app.route('/users')
 def list_users():
+    """
+    Lists all users.
+
+    Returns:
+        str: Rendered `users.html` template with user data.
+        500: Error page if data retrieval fails.
+    """
     try:
         users = data_manager.get_all_users()
     except IOError as e:
@@ -36,6 +64,17 @@ def list_users():
 
 @app.route('/users/<int:user_id>', methods=['GET'])
 def get_users_favorite_movies(user_id: int):
+    """
+    Displays a user's favorite movies.
+
+    Parameter:
+        user_id (int): ID of the user.
+
+    Returns:
+        str: Rendered `user-movies.html` template with user movie data.
+        404: If user or movies are not found.
+        500: If data retrieval fails.
+    """
     try:
         result = data_manager.get_user_movies(user_id)
 
@@ -52,6 +91,14 @@ def get_users_favorite_movies(user_id: int):
 
 @app.route('/add_user', methods=['GET', 'POST'])
 def add_user():
+    """
+    Adds a new user.
+
+    Returns:
+        str: Rendered `add-user.html` template for GET request.
+        Redirect: Redirects to user list on successful POST.
+        500: If user addition fails.
+    """
     if request.method == 'POST':
         name = request.form.get("name")
 
@@ -70,6 +117,17 @@ def add_user():
 
 @app.route('/users/<int:user_id>/add_movie', methods=['GET', 'POST'])
 def add_movie(user_id: int):
+    """
+    Adds a movie to a user's favorite list.
+
+    Parameter:
+        user_id (int): ID of the user.
+
+    Returns:
+        str: Rendered `add-movie.html` template for GET request.
+        Redirect: Redirects to home page on successful POST.
+        500: If movie addition fails.
+    """
     if request.method == 'POST':
         name = request.form.get("name")
 
@@ -102,6 +160,18 @@ def add_movie(user_id: int):
 @app.route('/users/<int:user_id>/update_movie/<int:movie_id>',
            methods=['GET', 'POST'])
 def update_movie(user_id: int, movie_id: int):
+    """
+     Updates a movie's details.
+
+     Parameters:
+         user_id (int): ID of the user.
+         movie_id (int): ID of the movie.
+
+     Returns:
+         str: Rendered `update-movie.html` template for GET request.
+         Redirect: Redirects to home page on successful POST.
+         500: If movie update fails.
+     """
     if request.method == 'POST':
         id = request.form.get("id")
         name = request.form.get("name")
@@ -135,6 +205,17 @@ def update_movie(user_id: int, movie_id: int):
 
 @app.route('/users/<int:user_id>/delete_movie/<int:movie_id>')
 def delete(user_id: int, movie_id: int):
+    """
+    Deletes a movie from a user's favorite list.
+
+    Parameters:
+        user_id (int): ID of the user.
+        movie_id (int): ID of the movie.
+
+    Returns:
+        Redirect: Redirects to user list on successful deletion.
+        500: If movie deletion fails.
+    """
     try:
         data_manager.delete_movies(movie_id)
     except IOError as e:
@@ -145,13 +226,36 @@ def delete(user_id: int, movie_id: int):
 
 @app.errorhandler(404)
 def page_not_found(error):
+    """
+    Renders a custom 404 error page.
+
+    Parameter:
+        error: The error that caused the handler to be invoked.
+
+    Returns:
+        Tuple[str, int]: Rendered `404.html` template and status code 404.
+    """
     return render_template('404.html'), 404
 
 
 @app.errorhandler(500)
 def page_not_found(error):
+    """
+    Renders a custom 500 error page.
+
+    Parameter:
+        error: The error that caused the handler to be invoked.
+
+    Returns:
+        Tuple[str, int]: Rendered `500.html` template and status code 500.
+    """
     return render_template('500.html'), 500
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    """
+    Runs the Flask application.
+
+    The application is hosted on `0.0.0.0:5000` with debug mode enabled.
+    """
+    app.run(host="0.0.0.0", port=5000, debug=True)
