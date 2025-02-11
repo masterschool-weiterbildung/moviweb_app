@@ -21,6 +21,29 @@
 <main>
     <div class="container">
         <div class="user-list">
+            <div>
+                {% if message == "True" %}
+                <h2 style="color:green">The movie has been added
+                    successfully.</h2>
+                {% endif %}
+                {% if message == "False" %}
+                <h2 style="color:red">Please add a movie first</h2>
+                {% endif %}
+                {% if message == "no_exist_movie" %}
+                <h2 style="color:red">The movie does not exist. Please add a
+                    valid movie title.</h2>
+                {% endif %}
+                {% if message == "add_user_blank" %}
+                <h2 style="color:red">Name cannot be blank</h2>
+                {% endif %}
+                {% if message == "add_user_success" %}
+                <h2 style="color:green">The user has been added
+                    successfully.</h2>
+                {% endif %}
+                {% if message == "movie_not_null" %}
+                <h2 style="color:red">Field cannot be blank</h2>
+                {% endif %}
+            </div>
             <h1>User</h1>
             {% for user in users %}
             <ul class="user-items">

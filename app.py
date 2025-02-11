@@ -21,6 +21,7 @@ from flask_migrate import Migrate
 
 from datamanager.sqlite_data_manager import SQLiteDataManager
 from models import User, Movie
+from marshmallow import Schema, fields, validate, ValidationError
 
 migrate = Migrate()
 
@@ -32,6 +33,30 @@ data_manager = SQLiteDataManager(str(db_path))
 
 app.config[
     "SQLALCHEMY_DATABASE_URI"] = (f"sqlite:///{db_path}")
+
+
+class MovieSchemaUpdate(Schema):
+    name = fields.Str(required=True, validate=validate.Length(min=1,
+                                                              error="Name cannot be blank"))
+
+    director = fields.Str(required=True, validate=validate.Length(min=1,
+                                                                  error="director cannot be blank"))
+    year = fields.Str(required=True, validate=validate.Length(min=1,
+                                                              error="year cannot be blank"))
+    rating = fields.Str(required=True, validate=validate.Length(min=1,
+                                                                error="rating cannot be blank"))
+
+    id = fields.Str(required=True, validate=validate.Length(min=1,
+                                                            error="rating cannot be blank"))
+
+
+class UserMovieSchema(Schema):
+    name = fields.Str(required=True, validate=validate.Length(min=1,
+                                                              error="Name cannot be blank"))
+
+
+movie_schema_update = MovieSchemaUpdate()
+user_movie_schema = UserMovieSchema()
 
 
 @app.route('/')
@@ -79,7 +104,7 @@ def get_users_favorite_movies(user_id: int):
         result = data_manager.get_user_movies(user_id)
 
         if not result:
-            abort(404)
+            return show_all_users("False")
 
         return render_template('user-movies.html', result=result,
                                username=result[0].name)
@@ -100,19 +125,33 @@ def add_user():
         500: If user addition fails.
     """
     if request.method == 'POST':
-        name = request.form.get("name")
-
-        user = User()
-        user.name = name
-
         try:
-            data_manager.add_user(user)
-        except IOError as e:
-            abort(500)
+            result = user_movie_schema.load(request.form)
+            name = result['name']
 
-        return redirect(url_for('list_users'))
+            user = User()
+            user.name = name
+
+            data_manager.add_user(user)
+
+        except IOError as e:
+            return show_all_users("add_user")
+        except ValidationError as ve:
+            return show_all_users("add_user_blank")
+
+        return show_all_users("add_user_success")
 
     return render_template('add-user.html')
+
+
+def show_all_users(message: str):
+    try:
+        users = data_manager.get_all_users()
+    except IOError as e:
+        return "Error getting all users", 500
+    return render_template('users.html',
+                           users=users,
+                           message=message)
 
 
 @app.route('/users/<int:user_id>/add_movie', methods=['GET', 'POST'])
@@ -129,24 +168,25 @@ def add_movie(user_id: int):
         500: If movie addition fails.
     """
     if request.method == 'POST':
-        name = request.form.get("name")
+        result = user_movie_schema.load(request.form)
+        name = result['name']
 
         try:
             movie = data_manager.get_user_from_api(name)
         except IOError as e:
-            abort(500)
+            return show_all_users("no_exist_movie")
         except Exception as e:
-            abort(500)
+            return show_all_users("no_exist_movie")
 
         movie.user_id = user_id
         movie.name = name
 
         try:
             data_manager.add_movie(movie)
+            return redirect(
+                url_for('get_users_favorite_movies', user_id=user_id))
         except IOError as e:
-            abort(500)
-
-        return redirect(url_for('index'))
+            return show_all_users("False")
     else:
         try:
             users = data_manager.get_all_users()
@@ -192,7 +232,7 @@ def update_movie(user_id: int, movie_id: int):
         except IOError as e:
             abort(500)
 
-        return redirect(url_for('index'))
+        return redirect(url_for('get_users_favorite_movies', user_id=user_id))
 
     try:
         return_movie = data_manager.get_movie(movie_id)
@@ -221,7 +261,8 @@ def delete(user_id: int, movie_id: int):
     except IOError as e:
         abort(500)
 
-    return redirect(url_for('list_users'))
+    return redirect(
+        url_for('get_users_favorite_movies', user_id=user_id))
 
 
 @app.errorhandler(404)

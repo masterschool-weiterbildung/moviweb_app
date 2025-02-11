@@ -16,25 +16,33 @@
 <main>
     <div class="container">
         <div class="add-movies-form">
+            <div>
+                {% if message == "movie_not_null" %}
+                <h2 style="color:red">Field cannot be blank</h2>
+                {% endif %}
+                {% if message == "error_updating_movie" %}
+                <h2 style="color:red">Field cannot be blank</h2>
+                {% endif %}
+            </div>
             <h3>Update Movie</h3>
             <form action="/users/{{user_id}}/update_movie/{{movie.id}}"
                   method="POST">
-                <input type="hidden" id="id" name="id"
+                <input type="hidden" id="id" name="id" required
                        value="{{ movie.id }}"/>
                 <label for="name">Title:</label>
-                <input type="text" id="name" name="name"
+                <input type="text" id="name" name="name" required
                        value="{{ movie.name }}"/>
                 <label for="director">Director:</label>
-                <input type="text" id="director" name="director"
+                <input type="text" id="director" name="director" required
                        value="{{ movie.director }}"/>
                 <label for="year">Year:</label>
-                <input type="text" id="year" name="year"
+                <input type="text" id="year" name="year" required
                        value="{{ movie.year }}">
-                <input type="text" id="rating" name="rating"
+                <input type="text" id="rating" name="rating" required
                        value="{{ movie.rating }}">
                 <button type="submit">Submit</button>
             </form>
-                <a href="/users" class="link-button">Go Back to User Page</a>
+            <a href="/users" class="link-button">Go Back to User Page</a>
         </div>
     </div>
 </main>

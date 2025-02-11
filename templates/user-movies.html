@@ -38,6 +38,13 @@
                     </div>
                 </li>
                 {% endfor %}
+                <div class="movie-actions">
+                    <a class="add-movies"
+                       href="/users/{{result[0].user_id}}/add_movie">Add
+                        Movies</a>
+                    <a href="/users" class="link-button">Go Back to User
+                        Page</a>
+                </div>
             </ul>
         </div>
     </div>

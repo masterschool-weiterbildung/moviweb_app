@@ -66,7 +66,7 @@ class Movie(db.Model):
     """
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
-    name: Mapped[str] = mapped_column(unique=True)
+    name: Mapped[str] = mapped_column(unique=False)
     director: Mapped[str]
     year: Mapped[int]
     rating: Mapped[float]
