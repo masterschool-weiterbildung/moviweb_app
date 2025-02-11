@@ -174,9 +174,11 @@ def add_movie(user_id: int):
         try:
             movie = data_manager.get_user_from_api(name)
         except IOError as e:
-            return show_all_users("no_exist_movie")
+            # return show_all_users("no_exist_movie")
+            print(e)
         except Exception as e:
-            return show_all_users("no_exist_movie")
+            # return show_all_users("no_exist_movie")
+            print(e)
 
         movie.user_id = user_id
         movie.name = name
