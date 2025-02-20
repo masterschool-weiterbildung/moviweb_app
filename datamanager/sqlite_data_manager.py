@@ -39,7 +39,7 @@ class SQLiteDataManager(DataManagerInterface):
     def get_user(self, user_id: int) -> Type[User] | None:
         return self.session.get(User, user_id)
 
-    def get_user_from_api(self, title: str) -> str | None:
+    def get_user_from_api(self, title: str) -> Movie | None:
         return get_movie_data_from_api(title)
 
     def get_movie(self, movie_id: int) -> Type[Movie] | None:

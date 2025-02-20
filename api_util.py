@@ -62,7 +62,13 @@ def get_movie_data_from_api(movie_title: str) -> Movie:
             if response.json()["Response"] == 'True':
                 movie = Movie()
                 movie.year = response.json()["Year"]
-                movie.rating = response.json()["imdbRating"]
+
+                rating_str = response.json()["imdbRating"]
+
+                if rating_str == "N/A":
+                    movie.rating = 0.0
+                else:
+                    movie.rating = response.json()["imdbRating"]
                 movie.director = response.json()["Director"]
                 return movie
             else:
