@@ -70,6 +70,7 @@ def get_movie_data_from_api(movie_title: str) -> Movie:
                 else:
                     movie.rating = response.json()["imdbRating"]
                 movie.director = response.json()["Director"]
+                movie.path = response.json()["Poster"]
                 return movie
             else:
                 raise Exception("Response is False")

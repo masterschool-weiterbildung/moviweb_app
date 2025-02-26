@@ -103,14 +103,19 @@ def get_users_favorite_movies(user_id: int):
     try:
         result = data_manager.get_user_movies(user_id)
 
+        user = data_manager.get_user(user_id)
+
         if not result:
-            return show_all_users("False")
+            return render_template('user-movies.html', result=[],
+                                   username=user)
 
         return render_template('user-movies.html', result=result,
-                               username=result[0].name)
+                               username=user)
     except IOError as e:
+        print(e)
         abort(500)
     except IndexError as e:
+        print(e)
         abort(500)
 
 
@@ -173,12 +178,10 @@ def add_movie(user_id: int):
 
         try:
             movie = data_manager.get_user_from_api(name)
-            print(movie)
         except IOError as e:
             return show_all_users("no_exist_movie")
         except Exception as e:
             return show_all_users("no_exist_movie")
-
 
         if not movie:
             return show_all_users("no_exist_movie")
@@ -188,8 +191,11 @@ def add_movie(user_id: int):
 
         try:
             data_manager.add_movie(movie)
+            user = data_manager.get_user(user_id)
+
             return redirect(
-                url_for('get_users_favorite_movies', user_id=user_id))
+                url_for('get_users_favorite_movies', user_id=user_id,
+                        username=user))
         except IOError as e:
             return show_all_users("False")
     else:

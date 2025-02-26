@@ -70,6 +70,7 @@ class Movie(db.Model):
     director: Mapped[str]
     year: Mapped[int]
     rating: Mapped[float]
+    path: Mapped[str]
 
     def __repr__(self):
         return (f"Movie(id = {self.id}, "

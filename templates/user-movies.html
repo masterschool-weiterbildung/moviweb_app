@@ -11,40 +11,41 @@
 
 <body>
 <header>
-    <h1>User {{username}}</h1>
+    <h1>User {{username.name}}</h1>
 </header>
 <main>
     <div class="container">
         <div class="movie-list">
             <h3>List of Movies</h3>
-            <ul class="movie-items">
-                {% for user in result %}
-                <li class="movie-item">
-                    <div class="movie-poster"></div>
-                    <div class="movie-details">
-                        <div class="movie-info">Title: {{user.name_1}}</div>
-                        <div class="movie-info">Director: {{user.director}}
-                        </div>
-                        <div class="movie-info">Year: {{user.year}}</div>
-                        <div class="movie-info">Rating:
-                            <span class="rating">{{user.rating}}</span>
-                        </div>
+            {% if result and result|length > 0 %}
+            {% for user in result%}
+            <li class="movie-item">
+                <div><img class="movie-poster" src={{user.path}}></div>
+                <div class="movie-details">
+                    <div class="movie-info">Title: {{user.name_1}}</div>
+                    <div class="movie-info">Director: {{user.director}}
                     </div>
-                    <div class="movie-actions">
-                        <a href="/users/{{user.user_id}}/update_movie/{{user.id}}">
-                            Edit</a>
-                        <a href="/users/{{user.user_id}}/delete_movie/{{user.id}}">
-                            Delete</a>
+                    <div class="movie-info">Year: {{user.year}}</div>
+                    <div class="movie-info">Rating:
+                        <span class="rating">{{user.rating}}</span>
                     </div>
-                </li>
-                {% endfor %}
-                <div class="movie-actions">
-                    <a class="add-movies"
-                       href="/users/{{result[0].user_id}}/add_movie">Add
-                        Movies</a>
-                    <a href="/users" class="link-button">Go Back to User
-                        Page</a>
                 </div>
+                <div class="movie-actions">
+                    <a href="/users/{{user.user_id}}/update_movie/{{user.id}}">
+                        Edit</a>
+                    <a href="/users/{{user.user_id}}/delete_movie/{{user.id}}">
+                        Delete</a>
+                </div>
+            </li>
+            {% endfor %}
+            {% endif %}
+            <div class="movie-actions">
+                <a class="add-movies"
+                   href="/users/{{username.id}}/add_movie">Add
+                    Movies</a>
+                <a href="/users" class="link-button">Go Back to User
+                    Page</a>
+            </div>
             </ul>
         </div>
     </div>

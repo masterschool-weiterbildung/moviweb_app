@@ -195,8 +195,8 @@ nav a:hover {
 }
 
 .movie-poster {
-    width: 50px;
-    height: 70px;
+    width: 80px;
+    height: 100px;
     background-color: #ddd;
     margin-right: 15px;
     border-radius: 5px;

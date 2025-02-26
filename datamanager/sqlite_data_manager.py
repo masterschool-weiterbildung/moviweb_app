@@ -27,7 +27,7 @@ class SQLiteDataManager(DataManagerInterface):
         results = self.session.execute(
             select(User.name, Movie.id, Movie.user_id, Movie.name,
                    Movie.director,
-                   Movie.year, Movie.rating)
+                   Movie.year, Movie.rating, Movie.path)
             .select_from(User)
             .join(Movie, User.id == Movie.user_id)
             .where(User.id == user_id)
